@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
       - name: k3s-demo
-        image: nginxdemos/hello:plain-text:latest
+        image: nginxdemos/hello:plain-text
