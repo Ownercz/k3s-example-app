@@ -16,3 +16,5 @@ spec:
       containers:
       - name: k3s-demo
         image: nginxdemos/hello
+        ports:
+          - containerPort: 80
