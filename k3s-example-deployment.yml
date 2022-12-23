@@ -1,10 +1,10 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: k3s-demo
-  namespace: default
+  namespace: sandbox
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: k3s-demo
@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
       - name: k3s-demo
-        image: ruanbekker/rpi-hostname:latest
+        image: nginxdemos/hello:plain-text:latest
