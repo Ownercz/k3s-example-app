@@ -17,4 +17,7 @@ spec:
       - name: k3s-demo
         image: nginxdemos/hello
         ports:
-          - containerPort: 80
+          - port: 80 
+            targetPort: 80
+            protocol: TCP
+            name: http
