@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-server
+  annotations:
+    kubesailEditorUid: 020cc795-f13a-4254-b985-1ce71b52f0df
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      volumes:
+        - name: world
+          nfs: 
+            server: nas.lipovcan.cz
+            path: /mnt/nas/nfs/k8s-pv/mc-test
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: world
+              mountPath: /data
+          ports:
+            - name: game-port
+              containerPort: 25565
+              hostPort: 25565
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 4
+              memory: 4Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mc-test-server
+spec:
+  selector:
+    app: minecraft
+  ports:
+  - protocol: TCP
+    port: 25565
+    targetPort: 25565
+  type: LoadBalancer
